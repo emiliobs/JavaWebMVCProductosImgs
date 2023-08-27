@@ -1,9 +1,10 @@
 package Controlador;
 
 import DAO.ProductoDAO;
-import Modelo.Producto;
+import Modelos.Producto;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -12,12 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.FileItemFactory;
 import org.apache.tomcat.util.http.fileupload.RequestContext;
 import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-        
+
+
 
 @WebServlet(name = "ProductoSV", urlPatterns =
 {
@@ -25,15 +28,14 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 })
 public class ProductoSV extends HttpServlet
 {
-    
+
     Producto producto = new Producto();
     ProductoDAO productoDAO = new ProductoDAO();
-        
+  
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-       String accion =  request.getParameter("accion");
-       List<FileItem> items = null;
+        String accion =  request.getParameter("accion");
        
         switch (accion)
         {
@@ -43,7 +45,7 @@ public class ProductoSV extends HttpServlet
                 {
                    FileItemFactory file = new DiskFileItemFactory();
                     ServletFileUpload fileUpload = new ServletFileUpload(file);
-                   items =  fileUpload.parseRequest((RequestContext) request);
+                    List items = fileUpload.parseRequest((RequestContext) request);
                     for (int i = 0; i < items.size(); i++) {
                         FileItem fileItem = (FileItem) items.get(i);
                         if (!fileItem.isFormField()) {
@@ -74,6 +76,15 @@ public class ProductoSV extends HttpServlet
         }
     }
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
@@ -110,3 +121,4 @@ public class ProductoSV extends HttpServlet
 }
 
 
+ 
